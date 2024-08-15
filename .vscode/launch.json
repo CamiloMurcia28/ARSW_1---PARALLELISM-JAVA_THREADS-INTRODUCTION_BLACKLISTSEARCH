@@ -6,6 +6,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "Main",
+            "request": "launch",
+            "mainClass": "edu.eci.arsw.blacklistvalidator.Main",
+            "projectName": "PiDigits"
+        },
+        {
+            "type": "java",
             "name": "CountThreadsMain",
             "request": "launch",
             "mainClass": "edu.eci.arsw.threads.CountThreadsMain",

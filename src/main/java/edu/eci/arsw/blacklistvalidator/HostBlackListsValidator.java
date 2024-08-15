@@ -5,11 +5,12 @@
  */
 package edu.eci.arsw.blacklistvalidator;
 
-import edu.eci.arsw.spamkeywordsdatasource.HostBlacklistsDataSourceFacade;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import edu.eci.arsw.spamkeywordsdatasource.HostBlacklistsDataSourceFacade;
 
 /**
  *
@@ -30,6 +31,16 @@ public class HostBlackListsValidator {
      * @return  Blacklists numbers where the given host's IP address was found.
      */
     public List<Integer> checkHost(String ipaddress){
+
+
+
+
+
+
+
+
+
+        
         
         LinkedList<Integer> blackListOcurrences=new LinkedList<>();
         

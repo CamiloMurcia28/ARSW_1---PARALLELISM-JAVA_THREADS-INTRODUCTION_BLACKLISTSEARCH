@@ -18,11 +18,11 @@ public class CountThreadsMain {
 
         CountThread obj3 = new CountThread(200,299);
 
-        obj1.run();
+        obj1.start();
 
-        obj2.run();
+        obj2.start();
 
-        obj3.run();
+        obj3.start();
     }
     
 }
