@@ -12,7 +12,17 @@ package edu.eci.arsw.threads;
 public class CountThreadsMain {
     
     public static void main(String a[]){
-        
+        CountThread obj1 = new CountThread(0,99);
+
+        CountThread obj2 = new CountThread(100,199);
+
+        CountThread obj3 = new CountThread(200,299);
+
+        obj1.run();
+
+        obj2.run();
+
+        obj3.run();
     }
     
 }
