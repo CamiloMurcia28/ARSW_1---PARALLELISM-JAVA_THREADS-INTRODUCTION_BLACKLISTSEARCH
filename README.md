@@ -19,7 +19,7 @@
  ![](img/metodo.png)  
 2. Complete el método __main__ de la clase CountMainThreads para que:
 	1. Cree 3 hilos de tipo CountThread, asignándole al primero el intervalo [0..99], al segundo [99..199], y al tercero [200..299].
-   	 ![](img/creacion.png)
+   	![](img/creacion.png)
 	2. Inicie los tres hilos con 'start()'.
 	3. Ejecute y revise la salida por pantalla.
  	![](img/start.png)
