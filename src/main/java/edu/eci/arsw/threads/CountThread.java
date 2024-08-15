@@ -25,9 +25,5 @@ public class CountThread extends Thread{
         }
         
     }    
-    public static void main(String a[]){
-        CountThread obj = new CountThread(0,99);
-        obj.start();
-        
-    }
+    
 }
