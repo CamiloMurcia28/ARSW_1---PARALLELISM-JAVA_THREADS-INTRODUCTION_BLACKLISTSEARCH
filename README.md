@@ -24,7 +24,7 @@
 	3. Ejecute y revise la salida por pantalla.
  	![](img/start.png)
 	4. Cambie el incio con 'start()' por 'run()'. Cómo cambia la salida?, por qué?.
-    	Ya que el metodo start() esta ejecutando los hilos de forma simultanea, por lo que se estan "cruzando" la impresion de los numeros, mientras que el metodo run () se esta sobreescribiendo con la etiqueta @Override, esto nos permite que se ejecute en orden los hilos.
+    	Ya que el metodo start() esta ejecutando los hilos de forma simultanea, por lo que se estan "cruzando" la impresion de los numeros, esto debido a que cuando usamos este metodo se crea el hilo y no espera la ejecucion "completa" de este hilo, sino que ejecuta la siguiente linea de codigo, mientras que el metodo run () se esta sobreescribiendo con la etiqueta @Override, esto nos permite que se ejecute en orden los hilos ya que se espera a que acabe el primero, para ejecutar el siguiente.
  	![](img/run.png)
 
 **Parte II - Ejercicio Black List Search**
