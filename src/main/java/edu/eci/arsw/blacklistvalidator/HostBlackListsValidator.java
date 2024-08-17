@@ -5,10 +5,9 @@
  */
 package edu.eci.arsw.blacklistvalidator;
 
-import java.util.LinkedList;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import edu.eci.arsw.spamkeywordsdatasource.HostBlacklistsDataSourceFacade;
 
@@ -30,52 +29,68 @@ public class HostBlackListsValidator {
      * @param ipaddress suspicious host's IP address.
      * @return  Blacklists numbers where the given host's IP address was found.
      */
-    public List<Integer> checkHost(String ipaddress){
+    HostBlacklistsDataSourceFacade skds=HostBlacklistsDataSourceFacade.getInstance();
+    List<List<Integer>> matrixBlackList = new ArrayList<>(); 
 
 
+     public static int[] dividirEnPartes(int m, int n) {
+        int[] partes = new int[n];
+        int parteBasica = m / n;
+        int resto = m % n;
 
-
-
-
-
-
-
-        
-        
-        LinkedList<Integer> blackListOcurrences=new LinkedList<>();
-        
-        int ocurrencesCount=0;
-        
-        HostBlacklistsDataSourceFacade skds=HostBlacklistsDataSourceFacade.getInstance();
-        
-        int checkedListsCount=0;
-        
-        for (int i=0;i<skds.getRegisteredServersCount() && ocurrencesCount<BLACK_LIST_ALARM_COUNT;i++){
-            checkedListsCount++;
-            
-            if (skds.isInBlackListServer(i, ipaddress)){
-                
-                blackListOcurrences.add(i);
-                
-                ocurrencesCount++;
+        if (m % 2 == 0) { // Si el número es par
+            Arrays.fill(partes, parteBasica);
+            for (int i = 0; i < resto; i++) {
+                partes[i]++;
+            }
+        } else { // Si el número es impar
+            Arrays.fill(partes, parteBasica);
+            for (int i = 0; i < resto; i++) {
+                partes[i]++;
             }
         }
-        
-        if (ocurrencesCount>=BLACK_LIST_ALARM_COUNT){
-            skds.reportAsNotTrustworthy(ipaddress);
-        }
-        else{
-            skds.reportAsTrustworthy(ipaddress);
-        }                
-        
-        LOG.log(Level.INFO, "Checked Black Lists:{0} of {1}", new Object[]{checkedListsCount, skds.getRegisteredServersCount()});
-        
-        return blackListOcurrences;
+
+        return partes;
     }
-    
-    
-    private static final Logger LOG = Logger.getLogger(HostBlackListsValidator.class.getName());
-    
-    
-    
+    public List<Integer> checkHost(String ipaddress, int n){
+        
+        List<Integer> blackListOccurrences = new ArrayList<>();
+        int r = 0;
+        List<Integer> empty = new ArrayList<>();
+
+        
+        int[] partes = dividirEnPartes(skds.getRegisteredServersCount(), n);
+        //crear los n hilos
+        HostThreads[] threads = new HostThreads[n];
+
+        //usar este for para crear los hilos
+        for(int i=0;i< n;i++){
+            threads[i] = new HostThreads(r,r + partes[i] , ipaddress, empty);
+            r = r + partes[i];
+        }
+        //inicia cada hilo y obtiene las subpartes 
+        for(int i=0;i< n;i++){
+            threads[i].start();
+            List<Integer> blackList = threads[i].getList();
+            matrixBlackList.add(blackList);
+        }
+
+         // Esperar que todos los hilos terminen
+         for (int i = 0; i < n; i++) {
+            try {
+                threads[i].join();  // Esperar a que el hilo termine
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+
+        // Recoger resultados después de que los hilos hayan terminado
+        for (int i = 0; i < n; i++) {
+            blackListOccurrences.addAll(threads[i].getList());
+        }
+
+        return blackListOccurrences;
+    }
 }
+
+
