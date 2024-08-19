@@ -90,17 +90,32 @@ Al iniciar el programa ejecute el monitor jVisualVM, y a medida que corran las p
 Con lo anterior, y con los tiempos de ejecución dados, haga una gráfica de tiempo de solución vs. número de hilos. Analice y plantee hipótesis con su compañero para las siguientes preguntas (puede tener en cuenta lo reportado por jVisualVM):
 
 ![](img/pruebavisual1.png) 
+
 ![](img/pruebavisual2.png) 
+
+Como se muestra en las capturas anteriores, el programa tardó entre 28 y 30 segundos en procesar con 6 hilos, mientras que con 12 hilos solo tomó entre 16 y 14 segundos. Además, se puede observar que la duración de los hilos en la prueba con 6 hilos es menor en comparación con la de 12 hilos.
 
 **Parte IV - Ejercicio Black List Search**
 
 1. Según la [ley de Amdahls](https://www.pugetsystems.com/labs/articles/Estimating-CPU-Performance-using-Amdahls-Law-619/#WhatisAmdahlsLaw?):
 
-	![](img/ahmdahls.png), donde _S(n)_ es el mejoramiento teórico del desempeño, _P_ la fracción paralelizable del algoritmo, y _n_ el número de hilos, a mayor _n_, mayor debería ser dicha mejora. Por qué el mejor desempeño no se logra con los 500 hilos?, cómo se compara este desempeño cuando se usan 200?. 
+	![](img/ahmdahls.png), donde _S(n)_ es el mejoramiento teórico del desempeño, _P_ la fracción paralelizable del algoritmo, y _n_ el número de hilos, a mayor _n_, mayor debería ser dicha mejora. Por qué el mejor desempeño no se logra con los 500 hilos?, cómo se compara este desempeño cuando se usan 200?.
+
+- El procesador puede ejecutar varios hilos simultáneamente, pero no en exceso, ya que estos hilos pueden quedar en cola o alternarse entre sí. Según la Ley de Amdahl, si una parte significativa del programa no es paralelizable, añadir más hilos no mejorará sustancialmente el rendimiento. De hecho, tener 200 hilos en ejecución puede ser más eficiente que tener 500, porque el poder de cómputo del procesador tiene un límite en la cantidad de hilos que puede manejar simultáneamente. Además, a medida que aumentan los hilos, la sobrecarga de sincronización y la gestión de los recursos puede reducir las ganancias de rendimiento esperadas.
+- Esto depende del factor P, que representa la cantidad de hilos que se pueden paralelizar al mismo tiempo. Por lo tanto, existe un límite; cuando se excede el número de hilos que el procesador puede paralelizar, estos hilos adicionales se colocan en cola, lo que genera un peor desempeño. Esto indica que el punto óptimo podría estar entre 200 y 500 hilos, y al usar 500 hilos, algunos de ellos se quedan en cola, lo que afecta negativamente el rendimiento.
+ Por ejemplo, podemos observar un ejemplo usando nuestra implementación. Realizamos una prueba con 200 hilos, y el tiempo de ejecución fue un poco más de dos segundos. Teóricamente, al aumentar a 80,000 hilos, debería haber sido más rápido, pero debido a las limitaciones ya mencionadas, el tiempo de ejecución fue mucho mayor que con un número menor de hilos. Esto confirma que agregar más hilos no siempre mejora el rendimiento, ya que la sobrecarga de gestión y las limitaciones del hardware afectan la eficiencia.
+
+200 Hilos:
+![](img/200hilos.png) 
+80000 Hilos:
+![](img/8khilos.png) 
 
 2. Cómo se comporta la solución usando tantos hilos de procesamiento como núcleos comparado con el resultado de usar el doble de éste?.
 
+   Como se observo en las pruebas graficas usando el monitor de JVisualVM, mejora el tiempo y el rendimiento del programa, esto debido a que estamos aprovechando de una mejor manera los recursos del procesador, creando mas hilos de trabajo, pero sin llegar a saturar y creando cuellos de botellas que puedan afectar el rendimiento del CPU.
+
 3. De acuerdo con lo anterior, si para este problema en lugar de 100 hilos en una sola CPU se pudiera usar 1 hilo en cada una de 100 máquinas hipotéticas, la ley de Amdahls se aplicaría mejor?. Si en lugar de esto se usaran c hilos en 100/c máquinas distribuidas (siendo c es el número de núcleos de dichas máquinas), se mejoraría?. Explique su respuesta.
+   Como ya se mencionó anteriormente, se puede afirmar que no habria una mejora o un mayor desempeño al momento de ejecutar el programa, por el contrario se estarian consumiendo muchos mas recursos fisicos y no necesariamente esto seria mejor debido a que se estaria sobrecargando el procesador y generarando colas que pueden llegar a reducir la eficiencia.
 
 
 
