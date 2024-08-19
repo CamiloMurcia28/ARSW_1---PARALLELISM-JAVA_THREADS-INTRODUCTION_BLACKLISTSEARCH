@@ -72,6 +72,16 @@ Para 'refactorizar' este código, y hacer que explote la capacidad multi-núcleo
 
 La estrategia de paralelismo antes implementada es ineficiente en ciertos casos, pues la búsqueda se sigue realizando aún cuando los N hilos (en su conjunto) ya hayan encontrado el número mínimo de ocurrencias requeridas para reportar al servidor como malicioso. Cómo se podría modificar la implementación para minimizar el número de consultas en estos casos?, qué elemento nuevo traería esto al problema?
 
+* Modificaciones Necesarias:
+Variable Compartida: Introducir una variable volatile que indique si se ha alcanzado o no el número mínimo de ocurrencias.
+
+Condición de Parada: Modificar la lógica dentro de cada hilo para verificar esta variable compartida antes de realizar cada consulta. Si la variable indica que ya se han encontrado suficientes ocurrencias, el hilo debería salir del bucle de búsqueda inmediatamente.
+
+Sincronización: Asegurar que el incremento de las ocurrencias totales esté debidamente sincronizado, de modo que múltiples hilos no entren en una condición de carrera.
+
+*Nuevo Elemento Introducido
+La introducción de una variable compartida volatile y el uso de AtomicInteger añaden un elemento de sincronización y comunicación entre hilos. Este enfoque reduce el número de consultas en casos donde se alcanzan las ocurrencias mínimas antes de tiempo, mejorando la eficiencia de la solución. Sin embargo, introduce complejidad adicional en la gestión de concurrencia, como la necesidad de manejar cuidadosamente la visibilidad y la atomicidad de las operaciones.
+
 **Parte III - Evaluación de Desempeño**
 
 A partir de lo anterior, implemente la siguiente secuencia de experimentos para realizar las validación de direcciones IP dispersas (por ejemplo 202.24.34.55), tomando los tiempos de ejecución de los mismos (asegúrese de hacerlos en la misma máquina):
