@@ -7,8 +7,6 @@ import java.util.logging.Logger;
 
 import edu.eci.arsw.spamkeywordsdatasource.HostBlacklistsDataSourceFacade;
 
-// valide si en un rango a,b hay 5 ocurrencias
-
 public class HostThreads extends Thread{
 
     private static final int BLACK_LIST_ALARM_COUNT=5;
@@ -26,23 +24,17 @@ public class HostThreads extends Thread{
     }
 
     @Override
-    public void run(){
-
-                
+    public void run(){  
         int ocurrencesCount=0;
         
         HostBlacklistsDataSourceFacade skds=HostBlacklistsDataSourceFacade.getInstance();
         
         int checkedListsCount=0;
-        
 
         for (int i=a;i<b && ocurrencesCount<BLACK_LIST_ALARM_COUNT;i++){
             checkedListsCount++;
-            
             if (skds.isInBlackListServer(i, ipaddress)){
-                
                 blackListOcurrences.add(i);
-                
                 ocurrencesCount++;
             }
         }
@@ -54,13 +46,9 @@ public class HostThreads extends Thread{
         }                
         
         LOG.log(Level.INFO, "Checked Black Lists:{0} of {1}", new Object[]{checkedListsCount, skds.getRegisteredServersCount()});
-        
-        
     }
 
     public List<Integer> getList(){
         return blackListOcurrences;
     }
-
-
 }
