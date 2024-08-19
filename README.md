@@ -3,6 +3,8 @@
 ### Arquitecturas de Software - ARSW
 ## Ejercicio Introducción al paralelismo - Hilos - Caso BlackListSearch
 
+Nombres: Camilo Murcia Espinosa y Tomas Suarez Piratova
+
 
 ### Dependencias:
 ####   Lecturas:
