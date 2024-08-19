@@ -117,6 +117,7 @@ Como se muestra en las capturas anteriores, el programa tardó entre 28 y 30 seg
    Como se observo en las pruebas graficas usando el monitor de JVisualVM, mejora el tiempo y el rendimiento del programa, esto debido a que estamos aprovechando de una mejor manera los recursos del procesador, creando mas hilos de trabajo, pero sin llegar a saturar y creando cuellos de botellas que puedan afectar el rendimiento del CPU.
 
 3. De acuerdo con lo anterior, si para este problema en lugar de 100 hilos en una sola CPU se pudiera usar 1 hilo en cada una de 100 máquinas hipotéticas, la ley de Amdahls se aplicaría mejor?. Si en lugar de esto se usaran c hilos en 100/c máquinas distribuidas (siendo c es el número de núcleos de dichas máquinas), se mejoraría?. Explique su respuesta.
+   
    Como ya se mencionó anteriormente, se puede afirmar que no habria una mejora o un mayor desempeño al momento de ejecutar el programa, por el contrario se estarian consumiendo muchos mas recursos fisicos y no necesariamente esto seria mejor debido a que se estaria sobrecargando el procesador y generarando colas que pueden llegar a reducir la eficiencia.
 
 
